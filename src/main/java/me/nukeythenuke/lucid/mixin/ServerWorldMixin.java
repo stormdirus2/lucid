@@ -57,14 +57,14 @@ public abstract class ServerWorldMixin extends World {
     // Warp chunk manager if in a vanilla induced tick or chunk manager warping is enabled
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerChunkManager;tick(Ljava/util/function/BooleanSupplier;)V"))
     private void warpChunks(ServerChunkManager serverChunkManager, BooleanSupplier shouldKeepTicking) {
-        if (!inWarpTick || Lucid.isEnabledChunkManagerWarping()) {
+        if (!inWarpTick) {
             serverChunkManager.tick(shouldKeepTicking);
         }
     }
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/village/raid/RaidManager;tick()V"))
     private void warpRaidManager(RaidManager raidManager) {
-        if (!inWarpTick || Lucid.isEnabledRaidManagerWarping()) {
+        if (!inWarpTick) {
             raidManager.tick();
         }
     }
@@ -72,7 +72,7 @@ public abstract class ServerWorldMixin extends World {
     // Warp block entities if in a vanilla induced world tick or block entity warping is enabled
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;tickBlockEntities()V"))
     private void warpBlockEntities(ServerWorld serverWorld) {
-        if (!inWarpTick || Lucid.isEnabledBlockEntityWarping()) {
+        if (!inWarpTick) {
             tickBlockEntities();
         }
     }
@@ -80,7 +80,7 @@ public abstract class ServerWorldMixin extends World {
     // Warp entities if in a vanilla induced world tick or entity warping is enabled
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;tickEntity(Ljava/util/function/Consumer;Lnet/minecraft/entity/Entity;)V"))
     private void warpEntities(ServerWorld serverWorld, Consumer<Entity> consumer, Entity entity) {
-        if (!inWarpTick || Lucid.isEnabledEntityWarping()) {
+        if (!inWarpTick) {
             tickEntity(consumer, entity);
         }
     }
